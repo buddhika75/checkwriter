@@ -37,12 +37,12 @@ import org.json.JSONObject;
  *
  * @author buddh
  */
-public class Sampling extends javax.swing.JFrame {
+public class CheckPrinting extends javax.swing.JFrame {
 
     /**
      * Creates new form Sampling
      */
-    public Sampling() {
+    public CheckPrinting() {
         initComponents();
         this.getRootPane().setDefaultButton(btnPrintLabels);
     }
@@ -61,9 +61,11 @@ public class Sampling extends javax.swing.JFrame {
         btnPrintLabels = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtLog = new javax.swing.JTextArea();
-        jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         btnClear = new javax.swing.JButton();
+        btnLoadChecks = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tblCheques = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -75,8 +77,13 @@ public class Sampling extends javax.swing.JFrame {
         lblBillNo.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
 
         txtBillNo.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
+        txtBillNo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtBillNoActionPerformed(evt);
+            }
+        });
 
-        btnPrintLabels.setText("Print Labels");
+        btnPrintLabels.setText("Print Selected Check");
         btnPrintLabels.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnPrintLabelsActionPerformed(evt);
@@ -87,17 +94,34 @@ public class Sampling extends javax.swing.JFrame {
         txtLog.setRows(5);
         jScrollPane1.setViewportView(txtLog);
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 36)); // NOI18N
-        jLabel2.setText("Bill No");
-
         jLabel1.setText("Log");
 
-        btnClear.setText("Clear");
+        btnClear.setText("Clear Log");
         btnClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnClearActionPerformed(evt);
             }
         });
+
+        btnLoadChecks.setText("Load Checks");
+        btnLoadChecks.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoadChecksActionPerformed(evt);
+            }
+        });
+
+        tblCheques.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(tblCheques);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -106,42 +130,44 @@ public class Sampling extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(lblBillNo)
-                        .addGap(457, 457, 457))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addContainerGap())
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtBillNo, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                        .addComponent(btnPrintLabels, javax.swing.GroupLayout.PREFERRED_SIZE, 123, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnClear)
-                        .addContainerGap())))
+                        .addGap(116, 116, 116)
+                        .addComponent(txtBillNo, javax.swing.GroupLayout.PREFERRED_SIZE, 411, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 746, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
+                        .addComponent(lblBillNo)
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(btnPrintLabels, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnClear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnLoadChecks, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(txtBillNo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addComponent(btnPrintLabels, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblBillNo)
-                    .addComponent(jLabel1)
-                    .addComponent(btnClear))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 338, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(78, 78, 78)
+                        .addComponent(lblBillNo))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnLoadChecks)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnPrintLabels)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnClear))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtBillNo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -198,7 +224,7 @@ public class Sampling extends javax.swing.JFrame {
                 cmd += t;
             }
         } catch (JSONException ex) {
-            Logger.getLogger(Sampling.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CheckPrinting.class.getName()).log(Level.SEVERE, null, ex);
             return cmd;
         }
         return cmd;
@@ -232,6 +258,29 @@ public class Sampling extends javax.swing.JFrame {
         // TODO add your handling code here:
         txtLog.setText("");
     }//GEN-LAST:event_btnClearActionPerformed
+
+    private void btnLoadChecksActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadChecksActionPerformed
+        if (txtBillNo.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(null, "Enter the Bill No", "Error", JOptionPane.ERROR_MESSAGE);
+            txtLog.setText(txtLog.getText() + "\nBill Number Entered is Empty ");
+            txtBillNo.requestFocus();
+        }
+        txtLog.setText(txtLog.getText() + "\nBill Number Entered = " + txtBillNo.getText());
+        String url = Prefs.getUrlValue() + "api/lims/samples/[SampleId]/[UserName]/[Password]";
+        url = url.replace("[SampleId]", txtBillNo.getText());
+        url = url.replace("[UserName]", Prefs.getUsername());
+        url = url.replace("[Password]", Prefs.getPassword());
+        txtLog.setText(txtLog.getText() + "\nRequest = " + url);
+        String res = sendRestfulRequest(url);
+        txtLog.setText(txtLog.getText() + "\nResponse = " + res);
+        String printCmd = parseJsonAndGeneratePrintCommand(res, Prefs.getPrintSample());
+        txtLog.setText(txtLog.getText() + "\nPrint Command = " + printCmd);
+        printZpl(printCmd);        // TODO add your handling code here:
+    }//GEN-LAST:event_btnLoadChecksActionPerformed
+
+    private void txtBillNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBillNoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtBillNoActionPerformed
 
     public void printZpl(String commands) {
         String printerName = Prefs.getPrinter().toLowerCase();
@@ -299,31 +348,34 @@ public class Sampling extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Sampling.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CheckPrinting.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Sampling.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CheckPrinting.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Sampling.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CheckPrinting.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Sampling.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(CheckPrinting.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Sampling().setVisible(true);
+                new CheckPrinting().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClear;
+    private javax.swing.JButton btnLoadChecks;
     private javax.swing.JButton btnPrintLabels;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblBillNo;
+    private javax.swing.JTable tblCheques;
     private javax.swing.JTextField txtBillNo;
     private javax.swing.JTextArea txtLog;
     // End of variables declaration//GEN-END:variables

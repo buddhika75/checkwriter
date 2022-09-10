@@ -29,7 +29,7 @@ public class Prefs {
 
     private static final String URL = "url";
     private static final String PRINTER = "printer";
-    private static final String PRINTER_COMMAND_SAMPLE = "printeCommandSample";
+    
 
     private static String urlValue = "";
     private static String username;
@@ -52,7 +52,7 @@ public class Prefs {
         Preferences prefs = Preferences.userNodeForPackage(Prefs.class);
         urlValue = prefs.get(URL, urlValue);
         printer = prefs.get(PRINTER, printer);
-        printSample = prefs.get(PRINTER_COMMAND_SAMPLE, printSample);
+
     }
 
     public static void savePrefs() {
@@ -60,7 +60,6 @@ public class Prefs {
         Preferences prefs = Preferences.userNodeForPackage(Prefs.class);
         prefs.put(URL, getUrlValue());
         prefs.put(PRINTER, getPrinter());
-        prefs.put(PRINTER_COMMAND_SAMPLE, printSample);
     }
 
     public static void getDataFromResponse(String response) {
